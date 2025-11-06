@@ -122,7 +122,7 @@ namespace Parma
             // Label to show total value
             lblTotalValue = new Label
             {
-                Text = "$0.00",
+                Text = 0m.ToString("C2"),
                 Location = new Point(660, 395),
                 Size = new Size(100, 25),
                 Font = new Font(this.Font.FontFamily, 12, FontStyle.Bold),
@@ -155,6 +155,14 @@ namespace Parma
             }
 
             string productName = cmbProduct.SelectedItem.ToString() ?? "";
+            
+            if (string.IsNullOrEmpty(productName) || !productCatalog.ContainsKey(productName))
+            {
+                MessageBox.Show("Producto no válido.", "Error", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             int quantity = (int)nudQuantity.Value;
             decimal unitPrice = productCatalog[productName];
             decimal totalPrice = quantity * unitPrice;
